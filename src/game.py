@@ -5,6 +5,7 @@ from CarClass import Car
 from MapClass import Platform
 from GameMenu import GameMenu
 import math
+from datetime import datetime
 
 # Initialize Pygame
 pygame.init()
@@ -29,17 +30,18 @@ platform_height = 20
 # elevations = [100] * 1000
 # elevations = ([y for x in range(100, 20, -2) for y in (x//2, x//2, x//2, x//2, x//2, x//2, x//2, x//2, x//2)] + [y for x in range(20, 100, 2) for y in (x//2, x//2, x//2, x//2, x//2, x//2, x//2, x//2, x//2)]) * 50
 elevations = (
-    [y for x in range(100, -40, -1) for y in (x//2,) * 5] +
-    [y for x in range(-40, 100, 1) for y in (x//2,) * 5]
+    [y for x in range(100, -40, -4) for y in (x//4,) * 8] +
+    [y for x in range(-40, 100, 1) for y in (x//4,) * 2]
 ) * 50
 
 # Create the platform
 platform = Platform(screen, elevations, platform_width, platform_height)
 offset_x = 0
 offset_y = 0
+change_in_velocity = 0
 
 # Game Car Character
-car = Car('/Users/dongmingsbrick/Desktop/UIRP-Rivian-R1-Hackathon/assets/R1T_GREY.png', 50, 20, 100, x=84, y=Macros.WINDOW_HEIGHT / 2, width=1280/10, height=960/10)
+car = Car('/Users/dongmingsbrick/Desktop/UIRP-Rivian-R1-Hackathon/assets/R1T_GREY.png', 100, 100, 100, x=84, y=Macros.WINDOW_HEIGHT / 2, width=1280/10, height=960/10)
 
 text = game_font.render('Press Enter to start', True, (255, 255, 255))
 
@@ -64,15 +66,25 @@ while game_start:
 
     # Update the car's position and velocity
     dt = clock.get_time() / 100
-        
-    # Scroll the platform based on the car's horizontal movement
-    offset_x = 0
-    offset_y = 1
-    if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-        offset_x += math.ceil(car.acc * dt if car.acc * dt < car.maxVelo else car.maxVelo)
-    elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
-        offset_x -= math.ceil(car.acc * dt if car.acc * dt < car.maxVelo else car.maxVelo)
     
+    # Scroll the platform based on the car's horizontal movement
+    offset_y = Macros.GRAVITY * (dt**2)
+
+    if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+        change_in_velocity = math.ceil(car.acc * dt)
+    elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
+        change_in_velocity = -((math.ceil(car.acc * dt)) * .06)
+    else:
+        change_in_velocity = -.2
+
+    if change_in_velocity != 0:
+        tmp = car.velocity + change_in_velocity
+        tmp = 0 if abs(tmp) < 2 else tmp
+        if abs(tmp) <= car.maxVelo:
+            car.velocity = max(0, tmp)
+
+        offset_x = math.ceil(car.velocity * dt)
+
     if offset_x != 0:
         platform.car_moved = True
     else:
@@ -92,7 +104,9 @@ while game_start:
     car.draw(screen)
     pygame.display.flip()
 
+    offset_x = 0
+    offset_y = 0
     # Cap the frame rate
-    clock.tick(600)
+    clock.tick(100)
 
 

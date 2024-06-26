@@ -1,5 +1,7 @@
 import pygame
+from datetime import datetime
 import Macros
+
 class Platform:
     def __init__(self, screen, elevations, platform_width, platform_height):
         self.screen = screen
@@ -24,10 +26,11 @@ class Platform:
 
         if not self.check_collision(car_x_pos, car_rect):
             for i in range(len(self.elevations)):            
-                self.elevations[i] -= (3)
+                # self.elevations[i] -= (3)
+                self.elevations[i] -= self.scroll_offset.y if self.scroll_offset.y < Macros.TERMINAL_VELOCITY else Macros.TERMINAL_VELOCITY
         if self.uphill(car_x_pos) and self.car_moved:
             for i in range(len(self.elevations)):
-                self.elevations[i] += (1)
+                self.elevations[i] += 1
     
 
     def draw(self, car_x_pos):
@@ -42,7 +45,9 @@ class Platform:
                 start_pos = (i - car_x_pos, self.elevations[i])
                 end_pos = (i + 1 - car_x_pos, self.elevations[i + 1])
 
-            color = (255, 0, 0) if (i - car_x_pos - 20 >= 0 and i - car_x_pos - 20 <= 128) else (0, 255, 0)
+            realtime_hour = datetime.now().hour
+
+            color = (0, 0, 0) if (i - car_x_pos - 20 >= 0 and i - car_x_pos - 20 <= 128) else (0, 255, 0)
             pygame.draw.line(
                 self.screen,
                 color,
@@ -53,7 +58,7 @@ class Platform:
 
     def scroll(self, offset_x, offset_y, car_x_pos, car_rect):
         # Scroll the platform based on the car's movement
-        self.scroll_offset.y += offset_y
+        self.scroll_offset.y = offset_y
         self.update(car_x_pos, car_rect)
 
     def get_slope(self, x):

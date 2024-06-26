@@ -16,6 +16,8 @@ class Car:
         self.rotate_true = False
         self.slope = 0
 
+        self.velocity = 0
+
     def update(self, offset_x, platform):
         self.x_pos += offset_x
 
