@@ -6,11 +6,11 @@ from MapClass import Platform
 # Game window macros
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
-FONT_NAME = "Calibri"
+FONT_NAME = "Open Sans"
 FONT_SIZE_L = 32
 FONT_SIZE_M = 24
 FONT_SIZE_S = 16
-GRAVITY = 9.81
+GRAVITY = -1
 
 # Initialize Pygame
 pygame.init()
@@ -77,18 +77,17 @@ while True:
         
     # Scroll the platform based on the car's horizontal movement
     offset_x = 0
+    offset_y += GRAVITY * dt
     if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-        offset_x += car.acc * dt
+        offset_x += car.acc * dt if car.acc * dt < car.maxVelo else car.maxVelo
     elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
-        offset_x -= car.acc * dt
+        offset_x -= car.acc * dt if car.acc * dt < car.maxVelo else car.maxVelo
 
     # Update the platform position with gravity
-    offset_y = GRAVITY * dt
-
     screen.fill((136, 206, 235))
 
     platform.scroll(offset_x, offset_y)
-    platform.draw()
+    platform.draw(car.rect)
     car.draw(screen)
     pygame.display.flip()
 

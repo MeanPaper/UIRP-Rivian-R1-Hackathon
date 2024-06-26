@@ -13,7 +13,6 @@ class Car:
     def draw(self, screen):
         screen.blit(self.model, self.rect.topleft)
 
-
     # Setters
     def setAcc(self, newAcc):
         self.acc = newAcc
