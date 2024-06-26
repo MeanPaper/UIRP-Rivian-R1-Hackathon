@@ -1,0 +1,16 @@
+from enum import Enum
+
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 600
+FONT_NAME = "Open Sans"
+FONT_SIZE_L = 32
+FONT_SIZE_M = 24
+FONT_SIZE_S = 16
+GRAVITY = 1
+TERMINAL_VELOCITY = 10
+
+NUM_PLATFORMS = 8000
+
+class GameMenuCode(Enum):
+    MENU_EXIT_OK = 0
+    MENU_ERROR = 1
