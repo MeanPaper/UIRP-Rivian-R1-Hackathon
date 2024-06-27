@@ -28,6 +28,5 @@ class Car:
 
 
     def draw(self, screen):
-
         self.model = pygame.transform.rotate(self.original_model, -math.degrees(self.angle)) if self.rotate_true else self.model
         screen.blit(self.model, self.rect.topleft)

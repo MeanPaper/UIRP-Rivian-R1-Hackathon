@@ -1,6 +1,7 @@
 import pygame
 from datetime import datetime
 import Macros
+import colorsys
 
 class Platform:
     def __init__(self, screen, elevations, platform_width, platform_height):
@@ -46,14 +47,22 @@ class Platform:
                 end_pos = (i + 1 - car_x_pos, self.elevations[i + 1])
 
             realtime_hour = datetime.now().hour
+            lumin_scale = Macros.shadow_scale(realtime_hour)
+            black_hls = (0, 0.6 * lumin_scale, 0)
+            black_rgb = colorsys.hls_to_rgb(*black_hls)
+            black_rgb = tuple(int(255 * i) for i in black_rgb)
 
-            color = (0, 0, 0) if (i - car_x_pos - 20 >= 0 and i - car_x_pos - 20 <= 128) else (0, 255, 0)
+            color = black_rgb if (i - car_x_pos - 20 >= 0 and i - car_x_pos - 20 <= 128) else (70, 80, 0)
+            
+            polygon_pts = [start_pos, end_pos, (end_pos[0], self.screen.get_height()), (start_pos[0], self.screen.get_height())]
+            pygame.draw.polygon(self.screen, (0,255,0), polygon_pts)
+
             pygame.draw.line(
                 self.screen,
                 color,
                 start_pos,
                 end_pos,
-                8  # Line thickness
+                50  # Line thickness
             )
 
     def scroll(self, offset_x, offset_y, car_x_pos, car_rect):
@@ -75,29 +84,5 @@ class Platform:
         if car_x_pos < 0 or car_x_pos > len(self.elevations) - 2:
             return False
 
-        start_pos = (car_x_pos, self.elevations[car_x_pos])
-        end_pos = (car_x_pos + 128, self.elevations[car_x_pos + 128])
-
         # if (self.elevations[car_x_pos + 128] > self.elevations[car_x_pos]):
         return car_rect.bottomright[1] >= self.elevations[car_x_pos + 128] or car_rect.bottomleft[1] >= self.elevations[car_x_pos]
-            # return car_rect.bottomright[1] > self.elevations[car_x_pos + 128]
-        # else:
-            # return car_rect.bottomleft[1] >= self.elevations[car_x_pos]
-
-        # return self._line_rect_collision(start_pos, end_pos, car_rect)
-
-    def _line_rect_collision(self, line_start, line_end, car_rect):
-        # Check if a line segment intersects with a rectangle (car)
-        line_rect = pygame.Rect(min(line_start[0], line_end[0]), min(line_start[1], line_end[1]), abs(line_end[0] - line_start[0]), abs(line_end[1] - line_start[1]))
-        return car_rect.colliderect(line_rect)
-    
-    def get_ground_y(self, x):
-        # Get the y-coordinate of the ground at a specific x-coordinate
-        adjusted_x = x + self.scroll_offset.x
-        for i in range(len(self.elevations) - 1):
-            if i <= adjusted_x < i + 1:
-                # Interpolate the y value
-                x1, y1 = self.elevations[i]
-                x2, y2 = self.elevations[i + 1]
-                return y1 + (y2 - y1) * (adjusted_x - x1) / (x2 - x1)
-        return self.elevations[-1]  # If x is beyond the platform, return the last segment's y

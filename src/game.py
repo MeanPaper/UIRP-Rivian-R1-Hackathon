@@ -41,7 +41,7 @@ offset_y = 0
 change_in_velocity = 0
 
 # Game Car Character
-car = Car('/Users/dongmingsbrick/Desktop/UIRP-Rivian-R1-Hackathon/assets/R1T_GREY.png', 100, 100, 100, x=84, y=Macros.WINDOW_HEIGHT / 2, width=1280/10, height=960/10)
+car = Car(model_path='/Users/dongmingsbrick/Desktop/UIRP-Rivian-R1-Hackathon/assets/R1T_GREY.png', acc=100, maxVelo=100, mileage=100, x=84, y=Macros.WINDOW_HEIGHT / 2, width=1300/10, height=900/10)
 
 text = game_font.render('Press Enter to start', True, (255, 255, 255))
 
@@ -72,10 +72,13 @@ while game_start:
 
     if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
         change_in_velocity = math.ceil(car.acc * dt)
+        car.mileage -= 10
     elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
         change_in_velocity = -((math.ceil(car.acc * dt)) * .06)
+        car.mileage += .6
     else:
         change_in_velocity = -.2
+        car.mileage += .4
 
     if change_in_velocity != 0:
         tmp = car.velocity + change_in_velocity
