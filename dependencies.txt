@@ -1,0 +1,9 @@
+Python dependecnies are listed in the file dependencies.txt:
+ pygame
+ sys
+ os
+ math
+ datetime
+ pytz
+ tzwhere
+ colorsys
