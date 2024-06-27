@@ -82,6 +82,55 @@ In addition to the terrain, the background changes based on the location data, a
 ---
 
 ## Game Controls
+
+### Text Input Controls
+Car Type Inputs: 
+ 'Aston Martin DB11 2017',
+ 'Aston Martin Rapide S 2017',
+ 'Aston Martin V12 Vantage S 2017',
+ 'Aston Martin Vanquish 2017',
+ 'AUDI A4 2017',
+ 'AUDI Q5 2017',
+ 'AUDI RS7 2017',
+ 'AUDI S5 2017',
+ 'BENTLEY Continental GT 2017',
+ 'BMW 230i Convertible 2017',
+ 'BMW 230i Coupe 2017',
+ 'BMW 230i xDrive Convertible 2017',
+ 'BMW 230i xDrive Coupe 2017',
+ 'BMW 320i 2017',
+ 'BMW 320i xDrive 2017',
+ 'BMW 328d 2017',
+ 'BMW 328d xDrive 2017',
+ 'BMW 328d xDrive Sports Wagon 2017',
+ 'BMW 330e 2017',
+ 'BMW 330i 2017',
+ 'BMW 330i xDrive 2017',
+ 'BMW 330i xDrive Gran Turismo 2017',
+ 'BMW 330i xDrive Sports Wagon 2017',
+ 'BMW 340i 2017',
+ 'BMW 340i xDrive 2017',
+ 'BMW 340i xDrive Gran Turismo 2017',
+ 'BMW 430i Convertible 2017',
+ 'BMW 430i Coupe 2017',
+ 'CHEVROLET COLORADO ZR2 4WD 2018',
+ 'CHEVROLET CORVETTE 2018',
+ 'CHEVROLET CRUZE 2018',
+ 'CHEVROLET EQUINOX 2018',
+ 'CHEVROLET EQUINOX AWD 2018',
+ 'CHEVROLET EQUINOX FWD 2018',
+ 'CHEVROLET IMPALA 2018',
+ 'CHEVROLET K15 SILVERADO 4WD 2018',
+ 'CHEVROLET K1500 SUBURBAN 4WD 2018'
+ 
+ & many more
+
+### Start-End Location Sample Inputs:
+
+(Chicago, champaign), (Chicago, Urbana), (Snoquera, Tacoma), (Seattle, Portland)
+(any two cities/states/countries with a car traversable path, any coordinates, any pin codes)
+
+### Hill Climb Controls
 Press the right arrow key or the 'D' key to move forward.
 
 Press the left arrow or the 'A' key to brake forcefully for regenerating battery while you can.
